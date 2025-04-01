@@ -93,13 +93,23 @@ num.noop <- round(n.serveyed*0.02)
 for (i in 1:n.serveyed){
   if (i <= num.satisfied){ #input satisfied people
     Gallup.survey$response[i] = 1
-  } else if (num.satisfied < i & i <= (num.satisfied + num.dissatisfied)){ #input dissatisfied people
+  } else{ #input dissatisfied and no opinion people
     Gallup.survey$response[i] = 0
   }
 }
 
 #perform resampling
 R <- 1000
+resamples <- tibble(mean = numeric(R))
+
+for (i in 1:R){ #do R resamples
+  #collect a random resample
+  curr.resample <- sample(x = Gallup.survey$response,
+                     size = n.serveyed,
+                     replace = T)
+  #compute statistics on the resample
+  resamples$mean[i] <- mean(curr.resample)
+}
 
 
 
