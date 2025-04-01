@@ -38,6 +38,14 @@ plot.poll <- ggplot(data = ggpoll)+
   xlab("Proportion of satisfied adult sample (n = 1004)")+ #add x and y label
   ylab("Density")
 
+#calculate the range of middle 95%
+lower <- quantile(ggpoll$poll, probs = 0.025)
+upper <- quantile(ggpoll$poll, probs = 0.975)
+middle.range <- upper-lower
+
+#approximate the margin of error
+error.margin <- middle.range/2 #divide the range by 2
+
 #double the sample size and perform the same computation
 double.serveyed <- 2008 #new sample size
 
@@ -61,7 +69,13 @@ plot.poll.double <- ggplot(data = ggpoll.double)+
   xlab("Proportion of satisfied adult sample (n = 2008)")+ #add x and y label
   ylab("Density")
 
+#calculate the range of middle 95%
+lower2 <- quantile(ggpoll.double$poll, probs = 0.025)
+upper2 <- quantile(ggpoll.double$poll, probs = 0.975)
+middle.range2 <- upper2-lower2
 
+#approximate the margin of error
+error.margin2 <- middle.range2/2 #divide the range by 2
 
 ################################################################################
 # TASK 2: Resampling
@@ -83,3 +97,11 @@ for (i in 1:n.serveyed){
     Gallup.survey$response[i] = 0
   }
 }
+
+#perform resampling
+R <- 1000
+
+
+
+
+
