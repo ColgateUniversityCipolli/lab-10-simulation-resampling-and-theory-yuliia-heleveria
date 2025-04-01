@@ -111,6 +111,18 @@ for (i in 1:R){ #do R resamples
   resamples$mean[i] <- mean(curr.resample)
 }
 
+#plot a histogram of resulting proportions from resampling
+resample.hist <- ggplot(data = resamples)+
+  geom_histogram(aes(x=mean, y = after_stat(density)),
+                 color="grey",
+                 bins = 20)+ #histogram of resample statistics
+  geom_density(aes(x= mean), color = "red")+ #superimpose density
+  theme_bw()+ #remove gray background
+  geom_hline(yintercept = 0)+
+  ylab("Density")+ #add x and y labels 
+  xlab("Means calculated by resampling")
+      
+
 
 
 
