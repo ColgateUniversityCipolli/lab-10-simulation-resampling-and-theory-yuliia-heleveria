@@ -60,3 +60,26 @@ plot.poll.double <- ggplot(data = ggpoll.double)+
   theme_bw()+
   xlab("Proportion of satisfied adult sample (n = 2008)")+ #add x and y label
   ylab("Density")
+
+
+
+################################################################################
+# TASK 2: Resampling
+################################################################################
+#create a data frame with data from Gallup survey
+Gallup.survey <- tibble(id = 1:n.serveyed,
+                        response = rep(NA, n.serveyed))
+
+#input 39% satisfied, 59% dissatisfied, 2% no opinion
+num.satisfied <- round(n.serveyed*0.39)
+num.dissatisfied <- round(n.serveyed*0.59)
+num.noop <- round(n.serveyed*0.02)
+
+#input the satisfaction data 
+for (i in 1:n.serveyed){
+  if (i <= num.satisfied){ #input satisfied people
+    Gallup.survey$response[i] = 1
+  } else if (num.satisfied < i & i <= (num.satisfied + num.dissatisfied)){ #input dissatisfied people
+    Gallup.survey$response[i] = 0
+  }
+}
