@@ -1,3 +1,5 @@
+# can margin of error be not in percent
+
 ################################################################################
 # LAB 10 R CODE
 # YULIIA HELEVERIA
@@ -45,6 +47,7 @@ middle.range <- upper-lower
 
 #approximate the margin of error
 error.margin <- middle.range/2 #divide the range by 2
+error.percentage <- error.margin*100 #convert error into percentage
 
 #double the sample size and perform the same computation
 double.serveyed <- 2008 #new sample size
@@ -76,6 +79,7 @@ middle.range2 <- upper2-lower2
 
 #approximate the margin of error
 error.margin2 <- middle.range2/2 #divide the range by 2
+error2.percentage <-error.margin2*100 #convert error into percentage
 
 ################################################################################
 # TASK 2: Resampling
@@ -128,8 +132,47 @@ upper.resample <- quantile(resamples$mean, probs = 0.975)
 middle.range.resample <- upper.resample-lower.resample
 
 #approximate the margin of error
-error.margin2.resample <- middle.range.resample/2 #divide the range by 2
+error.margin.resample <- middle.range.resample/2 #divide the range by 2
+error.resamp.percent <- error.margin.resample*100 #convert error to percentage
 
+################################################################################
+# TASK 3: Simulation over n and p
+################################################################################
+#specify range for n and p
+n.range <- seq(100, 3000, by = 10)
+p.range <- seq(0.01, 0.99, by = 0.01)
 
+#vector to store error value for each n and p
+error.storage <- tibble(
+  "P" = rep(NA, length(n.range)*length(p.range)),
+  "N" = rep(NA, length(n.range)*length(p.range)),
+  "Error" = rep(NA, length(n.range)*length(p.range))
+)
 
+#run 10000 simulations for each n and p
+curr.index = 0
+for (n.curr in n.range){
+  for (p.curr in p.range){
+    curr.index = curr.index +1
+    #generate the poll completion 10,000 times
+    poll.curr <- rbinom(n.repeat, n.curr, p.curr)
+    
+    #calculate the range of middle 95%
+    lower.curr <- quantile((poll.curr/n.curr)*100, probs = 0.025)
+    upper.curr <- quantile((poll.curr/n.curr)*100, probs = 0.975)
+    middle.range.curr <- upper.curr-lower.curr
+    
+    #approximate and store the margin of error
+    error.storage$P[curr.index] = p.curr
+    error.storage$N[curr.index] = n.curr
+    error.storage$Error[curr.index] <- middle.range.curr/2 #divide the range by 2
+  }
+}
+
+#summarize the results with a plot
+error.plot <- ggplot(data = error.storage)+
+  geom_raster(aes(x = N, y = P, fill = Error))+ #plot error based on r and n
+  theme_bw()+
+  labs(fill = "Margin of Error (%)")+ #label the legend
+  theme(legend.position = "bottom") #move legend to the bottom
 
