@@ -122,7 +122,13 @@ resample.hist <- ggplot(data = resamples)+
   ylab("Density")+ #add x and y labels 
   xlab("Means calculated by resampling")
       
+#calculate the range of middle 95%
+lower.resample <- quantile(resamples$mean, probs = 0.025)
+upper.resample <- quantile(resamples$mean, probs = 0.975)
+middle.range.resample <- upper.resample-lower.resample
 
+#approximate the margin of error
+error.margin2.resample <- middle.range.resample/2 #divide the range by 2
 
 
 
