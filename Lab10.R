@@ -176,3 +176,45 @@ error.plot <- ggplot(data = error.storage)+
   labs(fill = "Margin of Error (%)")+ #label the legend
   theme(legend.position = "bottom") #move legend to the bottom
 
+################################################################################
+# TASK 4: Actual margin of error calculation
+################################################################################
+#alpha for the confidence interval 
+alpha <- 0.05
+#z value of standard normal distribution
+z.critical <- qnorm(1-alpha/2)
+z.squared <- z.critical^2
+
+#vector to store margin of error for each n and p
+error.margin.storage <- tibble(
+  "P" = rep(NA, length(n.range)*length(p.range)),
+  "N" = rep(NA, length(n.range)*length(p.range)),
+  "Margin.of.Error" = rep(NA, length(n.range)*length(p.range))
+)
+
+#compute Wilson margin of error for each n and p
+curr.index = 0
+for (n.curr in n.range){
+  for (p.curr in p.range){
+    curr.index = curr.index + 1  #increment index
+    #plug values into the formula for Wilson margin of error
+    wilson.curr <- (z.critical*sqrt(n.curr*p.curr*(1-p.curr) +
+                                      z.squared/4))/
+      (n.curr + z.squared)
+    
+    #store values in the tibble
+    error.margin.storage$P[curr.index] = p.curr
+    error.margin.storage$N[curr.index] = n.curr
+    error.margin.storage$Margin.of.Error[curr.index] <- wilson.curr*100
+  }
+}
+
+#summarize the results with a plot
+error.wilson.plot <- ggplot(data = error.margin.storage)+
+  geom_raster(aes(x = N, y = P, fill = Margin.of.Error))+ #plot margin of error based on r and n
+  theme_bw()+
+  labs(fill = "Wilson margin of Error (%)")+ #label the legend
+  theme(legend.position = "bottom") #move legend to the bottom
+
+
+
