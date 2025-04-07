@@ -176,6 +176,8 @@ error.plot <- ggplot(data = error.storage)+
   labs(fill = "Margin of Error (%)")+ #label the legend
   theme(legend.position = "bottom") #move legend to the bottom
 
+ggsave("error.pdf", error.plot, width = 5, height = 5)
+
 ################################################################################
 # TASK 4: Actual margin of error calculation
 ################################################################################
@@ -216,5 +218,5 @@ error.wilson.plot <- ggplot(data = error.margin.storage)+
   labs(fill = "Wilson margin of Error (%)")+ #label the legend
   theme(legend.position = "bottom") #move legend to the bottom
 
-
+ggsave("error.wilson.pdf", error.wilson.plot, width = 5, height = 5)
 

@@ -33,7 +33,7 @@
   {\tt yheleveria@colgate.edu}
 }
 
-\date{}
+\date{02/08/2025}
 
 \maketitle
 
@@ -47,9 +47,10 @@ This document provides a basic template for the 2-page labs we will complete eac
 \noindent \textbf{Keywords:} What topics does the lab cover concerning class? List 3-4 key terms here, separated by semicolons.
 
 \section{Introduction}
-Provide an overarching summary of what you're talking about. In this section, you introduce the idea to the reader, and your goal is to pull them in. What's the mystery you aim to solve?
 
-You want to provide enough background to understand the context of the work. Specifically, what is the question you are addressing? If it applies, describe what information currently exists about this problem, including citations, and explain how the question you're answering complements this work.
+Gallup polls published a document called ``\textit{How Are Polls Conducted}'' that describes how Gallup selects people to include in its polls. In the article, Gallup polls claimed that with a sample size of 1,000 national adults (derived with random selection procedures), the results are likely to be accurate within a margin of error of  $\pm$4 \% percentage points. Gallup also concluded that if they increase a poll sample size to 2,000, the results then would be accurate within $\pm$2 \% of the underlying population value. 
+
+In this lab, we aim to test if doubling the sample size, as Gallup claims, would actually decrease the margin of error in half. We performed basic simulation and resampling of a poll to test if modifying sample size would decrease the margin of error in half. Also, we experimented if varying other factors, such as the actual population proportion, would affect the margin of error.
 
 Provide a roadmap of the structure of the paper. 
 
