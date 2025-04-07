@@ -38,13 +38,13 @@
 \maketitle
 
 \begin{multicols}{2}
-%\raggedcolumns % If your spacing gets messed up try uncommenting 
+\raggedcolumns % If your spacing gets messed up try uncommenting 
                 % this line
 \begin{abstract}
 This document provides a basic template for the 2-page labs we will complete each week. Here, briefly summarize what you did and why it might be helpful. Provide all the top-line conclusions, but avoid providing \emph{all} the details. Results should be limited to ``we show X, Y, and Z."
 \end{abstract}
 
-\noindent \textbf{Keywords:} What topics does the lab cover concerning class? List 3-4 key terms here, separated by semicolons.
+\noindent \textbf{Keywords:} Margin of Error; Sample Size; Simulation; Resampling.
 
 \section{Introduction}
 
@@ -54,32 +54,48 @@ In this lab, we aim to test if doubling the sample size, as Gallup claims, would
 
 Provide a roadmap of the structure of the paper. 
 
-\subsection{Intro Subsection}
-You might need/want to discuss the topics in subsections. Or, you may have multiple questions.
 
 
-
-
-
-<<eval=F, echo=F>>=
-
-@
 \section{Methods}
-Describe the data you are working with, if applicable. Describe the specific process you will follow to answer the question at hand. This does not mean you should write something like this.
-\begin{quote}
-\textit{I did this and then I did that and then I did this other thing and then..., and then..., and then...}
-\end{quote}
-Instead, it should provide a clear and concise narrative that flows from the problem specification in the Introduction to how you will approach answering it. This is where I would expect to see some citations for \texttt{R} packages you will use to conduct the statistical analysis reported in the Results section.
+We take conclude that the margin of error provides 95\% confidence. As a example study, we chose to replicate poll results of February 3-16, 2025 poll of 1,004 adults aged 18+ living in all 50 U.S. states and the District of Columbia about their satisfaction with position of the United States in the world today. The results revealed that 39\% of respondents were satisfied, 59\% were dissatisfied, and 2\% had no opinion. Gallup reported margin of error of  $\pm$4 \% percentage points for this poll.
 
+To begin, we conducted a basic simulation study with assumed population probability proportion $p=0.39$ for sample size $n=1004$ and then $n=2008$ to compare their estimated margin of error by halving the middle 95\%. We generated 10k polls for each sample size. 
 
-\subsection{Methods Subsection}
-Much like the Introduction, subsections can be helpful for the Methods section. For example, you might describe data collection and the statistical analyses of the collected data in different subsections. Or, you may have different questions that require distinct methods. 
+\begin{Figure}
+ \centering
+ \includegraphics[width=\linewidth]{simulation.png}
+ \captionof{figure}{Histogram of sample proportions with superimposed density}
+ \label{fig:sim}
+\end{Figure}
+
+Another option for approximating the estimated error is resampling. We took random sample with replacement from the original sample 1000 times to reproduce the experiment on the population. For each random sample taken from the original, we calculated the mean. We then summarized the range of the middle 95\% of values, calculating the margin of error by halving the interval.
+
+\begin{Figure}
+ \centering
+ \includegraphics[width = 0.7\linewidth]{resample.png}
+ \captionof{figure}{Histogram of resample proportions with superimposed density}
+ \label{fig:res}
+\end{Figure}
+
+We also performed simulations for sample size $n$ in the range {100, 110, 120, ..., 3000} and the population probability proportion $p$ in the range {0.01, 0.02, ..., 0.99}. We calculated the margin of error by halving the range of the middle 95\% of observations and by using the Wilson margin of error formula.
+
+\begin{Figure}
+ \centering
+ \includegraphics[width =0.7\linewidth]{error.png}
+ \captionof{figure}{Estimated margin of error as a function of $n$ and $p$}
+ \label{fig:err}
+\end{Figure}
+
+\begin{Figure}
+ \centering
+ \includegraphics[width =0.7\linewidth]{error.wilson.png}
+ \captionof{figure}{Estimated Wilson margin of error as a function of $n$ and $p$}
+ \label{fig:errw}
+\end{Figure}
+
 
 \section{Results}
-Tie together the Introduction -- where you introduce the problem at hand -- and the methods --  what you propose to do to answer the question. Present your data, the results of your analyses, and how each reported aspect contributes to answering the question. This section should include table(s), statistic(s), and graphical displays. Make sure to put the results in a sensible order and that each result contributes a logical and developed solution. It should not just be a list. Avoid being repetitive. 
 
-\subsection{Results Subsection}
-Subsections can be helpful for the Results section, too. This can be particularly helpful if you have different questions to answer. 
 
 
 \section{Discussion}

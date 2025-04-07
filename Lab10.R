@@ -11,6 +11,7 @@
 ################################################################################
 library(tidyverse)
 library(ggplot2)
+library(patchwork)
 
 ################################################################################
 # TASK 1: Basic Simulation
@@ -81,6 +82,10 @@ middle.range2 <- upper2-lower2
 error.margin2 <- middle.range2/2 #divide the range by 2
 error2.percentage <-error.margin2*100 #convert error into percentage
 
+combined <- plot.poll + plot.poll.double
+ggsave("simulation.png", combined, width = 10, height = 5)
+
+
 ################################################################################
 # TASK 2: Resampling
 ################################################################################
@@ -135,6 +140,8 @@ middle.range.resample <- upper.resample-lower.resample
 error.margin.resample <- middle.range.resample/2 #divide the range by 2
 error.resamp.percent <- error.margin.resample*100 #convert error to percentage
 
+ggsave("resample.png", resample.hist, width = 5, height = 5)
+
 ################################################################################
 # TASK 3: Simulation over n and p
 ################################################################################
@@ -176,7 +183,7 @@ error.plot <- ggplot(data = error.storage)+
   labs(fill = "Margin of Error (%)")+ #label the legend
   theme(legend.position = "bottom") #move legend to the bottom
 
-ggsave("error.pdf", error.plot, width = 5, height = 5)
+ggsave("error.png", error.plot, width = 5, height = 5)
 
 ################################################################################
 # TASK 4: Actual margin of error calculation
@@ -218,5 +225,5 @@ error.wilson.plot <- ggplot(data = error.margin.storage)+
   labs(fill = "Wilson margin of Error (%)")+ #label the legend
   theme(legend.position = "bottom") #move legend to the bottom
 
-ggsave("error.wilson.pdf", error.wilson.plot, width = 5, height = 5)
+ggsave("error.wilson.png", error.wilson.plot, width = 5, height = 5)
 
