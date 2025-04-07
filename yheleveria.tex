@@ -92,27 +92,27 @@
 \raggedcolumns % If your spacing gets messed up try uncommenting 
                 % this line
 \begin{abstract}
-This document provides a basic template for the 2-page labs we will complete each week. Here, briefly summarize what you did and why it might be helpful. Provide all the top-line conclusions, but avoid providing \emph{all} the details. Results should be limited to ``we show X, Y, and Z."
+We aim to investigate the relationship between sample size and margin of error in opinion polls, specifically examining Gallup's claim regarding the effect of doubling the sample size to decease the margin of error in half. We estimated the margin of error through basic simulation and resampling and compared the obtained value with Gallup's. We further explored the effect of varying sample sizes and population proportions on the margin of error using simulation and Wilson margin of error formula. Our results demonstrate that Gallup simplified the relationship between sample size and its effect on the margin of error, as the margin of error is significantly influenced by population proportion and doubling sample size does not half the margin of error.
 \end{abstract}
 
 \noindent \textbf{Keywords:} Margin of Error; Sample Size; Simulation; Resampling.
 
-\section{Introduction}
+\section{Introduction} 
 
 Gallup polls published a document called ``\textit{How Are Polls Conducted}'' that describes how Gallup selects people to include in its polls. In the article, Gallup polls claimed that with a sample size of 1,000 national adults (derived with random selection procedures), the results are likely to be accurate within a margin of error of  $\pm$4 \% percentage points. Gallup also concluded that if they increase a poll sample size to 2,000, the results then would be accurate within $\pm$2 \% of the underlying population value. 
 
 In this lab, we aim to test if doubling the sample size, as Gallup claims, would actually decrease the margin of error in half. We performed basic simulation and resampling of a poll to test if modifying sample size would decrease the margin of error in half. Also, we experimented if varying other factors, such as the actual population proportion, would affect the margin of error.
 
-Provide a roadmap of the structure of the paper. 
+Section \ref{sec:methods} defines methodologies employed to investigate the relationship between sample size, population proportion, and the margin of error. Section \ref{sec:results} presents and interprets our findings. Section \ref{sec:discussion} discusses the implications of the results and compares our findings to the Gallup's claims.
 
 
 
-\section{Methods}
+\section{Methods}\label{sec:methods}
 We take conclude that the margin of error provides 95\% confidence. As a example study, we chose to replicate poll results of February 3-16, 2025 poll of 1,004 adults aged 18+ living in all 50 U.S. states and the District of Columbia about their satisfaction with position of the United States in the world today. The results revealed that 39\% of respondents were satisfied, 59\% were dissatisfied, and 2\% had no opinion. Gallup reported margin of error of  $\pm$4 \% percentage points for this poll.
 
-To begin, we conducted a basic simulation study with assumed population probability proportion $p=0.39$ for sample size $n=1004$ and then $n=2008$ to compare their estimated margin of error by halving the middle 95\%. We generated 10k polls for each sample size. 
+To begin, we conducted a basic simulation study with assumed population probability proportion $p=0.39$ for sample size $n=1004$ and then $n=2008$ to compare their estimated margin of error by halving the middle 95\%. We generated 10k polls for each sample size. We simulated data using \texttt{tidyverse} and visualized our results using \texttt{ggplot2} and \texttt{patchwork} packages in \texttt{R} \citep{tidyverse, ggplot, patchwork}.
 
-\begin{Figure}
+\begin{Figure} 
  \centering
  \includegraphics[width=\linewidth]{simulation.png}
  \captionof{figure}{Histogram of sample proportions with superimposed density}
@@ -145,22 +145,30 @@ We also performed simulations for sample size $n$ in the range {100, 110, 120, .
 \end{Figure}
 
 
-\section{Results}
+\section{Results}\label{sec:results}
+
+After we performed the basic simulation (see Figure \ref{fig:sim}), the estimated margin of error for the sample size of 1,004 was approximately 3.04\%, which is smaller than reported by Gallup. After we doubled the sample size to 2,008 in the simple simulation, the margin of error became approximately 2.12\%. This simple simulation does not support the Gallup's claim that the margin of error reduces in half as the sample size increases in half because our margin of error only decreased by approximately 30\%. 
+
+The result of resampling (see Figure \ref{fig:res}) showed that the estimated margin of error for the sample size of 1,004 is 3.03\%, which is very similar to the margin of error produced by the basic simulation. However, we cannot double the sample size using resampling, so we cannot estimate how the margin of error changes as the sample size changes.
+
+By comparing the estimated margin of error for various values of $p$ and $n$, we can conclude that the sample size is only one of the determinants for the estimated margin of error (see Figure \ref{fig:err}). It is true that as the sample size increases, the margin of error reduces. However, the margin of error also depends on the $p$ value. When $p$ is extreme (close to 0 or 1) is very small as we cannot extend beyond the parameter space. After performing margin of error calculation using the Wilson margin of error formula for various values of $p$ and $n$, we arrive as the same conclusion(see Figure \ref{fig:errw}). Therefore, the margin of error depends on both $n$ and $p$ values and it is not as simple as Gallup stated it to be.
 
 
 
-\section{Discussion}
- You should objectively evaluate the evidence you found in the data. Do not embellish or wish-terpet (my made-up phase for making an interpretation you, or the researcher, wants to be true without the data \emph{actually} supporting it). Connect your findings to the existing information you provided in the Introduction.
+\section{Discussion}\label{sec:discussion}
+Our initial simulation reveled that doubling the sample size did reduce the margin of error, but it did not halve it as Gallup claimed. Further simulation over various values of sample size and the population proportion reveled that as sample size increases, the margin of error decreases. However, margin of error and sample size do not have exact proportion of change. Margin of error decreases slower compared to the sample size's growth. This highlights the complexity of margin of error calculation and how it can be oversimplified in publications.
 
-Finally, provide some concluding remarks that tie together the entire paper. Think of the last part of the results as abstract-like. Tell the reader what they just consumed -- what's the takeaway message?
+The comprehensive simulation over a range of sample sizes and the population proportions, along with the application of the Wilson margin of error formula, reveled a critical dependencies of margin of error on both sample size and population proportion. Margin of error is largest when the the population proportion is closest to 0.5 and smallest when its value is extreme. This observation is consistent with the thoeretocal understanding of binomial distribution variance, which is maximized at $p=0.5$.
+
+Our results of margin of error calculation emphasized the similarity of halving the middle 95\% range with the Wilson margin of error formula. Both calculations produce similar results, so our direct calculation be considered robust as the Wilson formula is known for its accuracy. Our calculations only diverge slightly for small sample sizes, which can de explained by precision of Wilson formula even for small sample sizes.
+
+Therefore, our findings suggest that Gallup's claim of halving the margin of error by doubling the sample size is an oversimplification. It is crucial to consider both sample size and the population proportion when interpreting the margin of error.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Bibliography
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \vspace{2em}
 
-\noindent\textbf{Bibliography:} Note that when you add citations to your bib.bib file \emph{and}
-you cite them in your document, the bibliography section will automatically populate here.
 
 \begin{tiny}
 \bibliography{bib}
@@ -172,8 +180,8 @@ you cite them in your document, the bibliography section will automatically popu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \onecolumn
-\section{Appendix}
 
-If you have anything extra, you can add it here in the appendix. This can include images or tables that don't work well in the two-page setup, code snippets you might want to share, etc.
+
+
 
 \end{document}
