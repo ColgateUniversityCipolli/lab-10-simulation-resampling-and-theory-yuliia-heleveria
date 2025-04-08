@@ -92,7 +92,7 @@
 \raggedcolumns % If your spacing gets messed up try uncommenting 
                 % this line
 \begin{abstract}
-We investigate the relationship between sample size and margin of error in opinion polls, testing Gallup's claim that doubling the sample size cuts the margin of error in half. Using simulations and resampling, we estimated margins of error and compared them Gallup's estimates. We further examined how varying sample sizes and population proportions affect error, applying both simulation and Wilson margin of error formula. Our results show that Gallup oversimplifies the relationship between sample size and its effect on the margin of error: the margin of error depends significantly on population proportion, and doubling sample size does not reduce the margin of error by half.
+We investigate the relationship between sample size and margin of error in opinion polls, testing Gallup's claim that doubling the sample size cuts the margin of error in half. Using simulations and resampling, we estimated margins of error and compared them with Gallup's estimates. We further examined how varying sample sizes and population proportions affect error, applying both simulation and Wilson margin of error formula. Our results show that Gallup oversimplifies the relationship between sample size and its effect on the margin of error: the margin of error depends significantly on population proportion, and doubling sample size does not reduce the margin of error by half.
 \end{abstract}
 
 \noindent \textbf{Keywords:} Margin of Error; Sample Size; Simulation; Resampling.
@@ -108,9 +108,9 @@ Section \ref{sec:methods} defines methodologies. Section \ref{sec:results} prese
 
 
 \section{Methods}\label{sec:methods}
-We assume that the margin of error is based on 95\% confidence. As a example study, we chose to replicate results of February 3-16, 2025 poll of U.S. 1,004 adults about their satisfaction with position of the United States in the world today. The results revealed that 39\% of respondents were satisfied, 59\% were dissatisfied, and 2\% had no opinion. Gallup reported margin of error of  $\pm$4 \% for this poll.
+We assume that the margin of error is based on 95\% confidence. As a example study, we chose to replicate results of February 3-16, 2025 poll of 1,004 U.S. adults about their satisfaction with position of the United States in the world today. The results revealed that 39\% of respondents were satisfied, 59\% were dissatisfied, and 2\% had no opinion. Gallup reported margin of error of $\pm$4\% for this poll.
 
-We simulated 10,000 polls with assumed population probability proportion $p=0.39$ for sample size $n=1,004$ and $n=2,008$, estimating the margin of error as half the range of the middle 95\% of sample proportions. We generated 10k polls for each sample size. Simulations were created in \texttt{R} using \texttt{tidyverse}, with visualizations created using \texttt{ggplot2} and \texttt{patchwork} packages \citep{tidyverse, ggplot, patchwork}.
+We simulated 10,000 polls with assumed population probability proportion $p=0.39$ for sample sizes $n=1,004$ and $n=2,008$, estimating the margin of error as half the range of the middle 95\% of sample proportions. We generated 10k polls for each sample size. Simulations were created in \texttt{R} using \texttt{tidyverse}, with visualizations created using \texttt{ggplot2} and \texttt{patchwork} packages \citep{tidyverse, ggplot, patchwork}.
 
 \begin{Figure} 
  \centering
@@ -119,7 +119,7 @@ We simulated 10,000 polls with assumed population probability proportion $p=0.39
  \label{fig:sim}
 \end{Figure}
 
-We also approximated the margin of error by resampling. We took random sample with replacement from the original sample 1,000 times to reproduce the experiment sample. For each random sample taken from the original, we calculated the mean. We then summarized the range of the middle 95\% of mean values, calculating the margin of error by halving the interval.
+We also approximated the margin of error by resampling. We took random sample with replacement from the original sample 1,000 times. For each random sample taken from the original, we calculated the mean. We then summarized the range of the middle 95\% of mean values, calculating the margin of error by reducing the interval in half.
 
 \begin{Figure}
  \centering
@@ -128,7 +128,7 @@ We also approximated the margin of error by resampling. We took random sample wi
  \label{fig:res}
 \end{Figure}
 
-We also performed simulations for sample size $n$ in the range \{100, 110, 120, ..., 3000\} and the population probability proportion $p$ in the range \{0.01, 0.02, ..., 0.99\}. We calculated the margin of error by halving the interval of the middle 95\% of observations and by using the Wilson margin of error formula.
+We also performed simulations for sample size $n$ in the range \{100, 110, 120, ..., 3000\} and the population probability proportion $p$ in the range \{0.01, 0.02, ..., 0.99\}. We calculated the margin of error by reducing the interval of the middle 95\% of observations in half and by using the Wilson margin of error formula.
 
 \begin{Figure}
  \centering
@@ -156,13 +156,13 @@ By comparing the estimated margin of error for various values of $p$ and $n$, we
 
 
 \section{Discussion}\label{sec:discussion}
-Our initial simulation revealed that doubling the sample size did reduce the margin of error, but it did not halve it as Gallup claimed. However, margin of error and sample size do not have exact proportion of change. Margin of error decreases slower than the sample size grows. This highlights the complexity of margin of error calculation and how it can be oversimplified in publications.
+Our initial simulation revealed that doubling the sample size did reduce the margin of error, but it did not reduce it in half as Gallup claimed. Margin of error and sample size do not have exact proportion of change. Margin of error decreases slower than the sample size grows. This highlights the complexity of margin of error calculation and how it can be oversimplified in publications.
 
 The comprehensive simulation over a range of sample sizes and the population proportions, along with the application of the Wilson margin of error formula, reveled a critical dependencies of margin of error on both sample size and population proportion. Margin of error is largest when the the population proportion is closest to 0.5 and smallest when its value is near 0 or 1. Our results align with binomial variance theory, where error peaks at $p = 0.5$ and decreases near extremes.
 
-Our results of margin of error calculation emphasized the similarity of halving the middle 95\% range with the Wilson margin of error formula. Both calculations produce similar results, so our direct calculation can be considered robust as the Wilson formula is known for its accuracy. Our calculations only diverge slightly for small sample sizes, which can de explained by precision of Wilson formula even for small sample sizes.
+Our results of margin of error calculation emphasized the similarity of reducing the middle 95\% of range in half with the Wilson margin of error formula. Both calculations produce similar results, so our direct calculation can be considered robust as the Wilson formula is known for its accuracy. Our calculations only diverge slightly for small sample sizes, which can de explained by precision of Wilson formula even for small sample sizes.
 
-Our findings suggest that Gallup's claim that we can halve the margin of error by doubling the sample size is an oversimplification. It is crucial to consider both sample size and the population proportion when interpreting the margin of error.
+Our findings suggest that Gallup's claim that we can reduce the margin of error in half by doubling the sample size is an oversimplification. It is crucial to consider both sample size and the population proportion when interpreting the margin of error.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Bibliography
